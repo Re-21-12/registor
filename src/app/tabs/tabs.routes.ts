@@ -1,33 +1,46 @@
 import { Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { authGuard } from '../shared/features/auth/guards/auth.guard';
+import { patientProfileGuard } from '../shared/features/health/guards/patient-profile.guard';
 
 export const routes: Routes = [
   {
     path: 'tabs',
     component: TabsPage,
+    canActivate: [authGuard],
     children: [
       {
-        path: 'tab1',
-        loadComponent: () => import('./tab1/tab1.page').then((m) => m.Tab1Page),
+        path: 'measurements',
+        canActivate: [patientProfileGuard],
+        loadComponent: () =>
+          import('./measurements/measurements.page').then((m) => m.MeasurementsPage),
       },
       {
-        path: 'tab2',
-        loadComponent: () => import('./tab2/tab2.page').then((m) => m.Tab2Page),
+        path: 'scan',
+        canActivate: [patientProfileGuard],
+        loadComponent: () =>
+          import('./scan/scan.page').then((m) => m.ScanPage),
       },
       {
-        path: 'tab3',
-        loadComponent: () => import('./tab3/tab3.page').then((m) => m.Tab3Page),
+        path: 'profile',
+        loadComponent: () =>
+          import('./profile/profile.page').then((m) => m.ProfilePage),
+      },
+      {
+        path: 'profile/setup',
+        loadComponent: () =>
+          import('./profile-setup/profile-setup.page').then((m) => m.ProfileSetupPage),
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/measurements',
         pathMatch: 'full',
       },
     ],
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/measurements',
     pathMatch: 'full',
   },
 ];

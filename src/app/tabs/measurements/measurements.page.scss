@@ -1,0 +1,17 @@
+.loading-container,
+.empty-container,
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+
+.glucose-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+:global(.glucose-low)      { color: var(--ion-color-warning); }
+:global(.glucose-in-range) { color: var(--ion-color-success); }
+:global(.glucose-high)     { color: var(--ion-color-danger);  }

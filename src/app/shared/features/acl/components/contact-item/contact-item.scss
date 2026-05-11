@@ -1,0 +1,17 @@
+.type-icon {
+  font-size: 1.3rem;
+  color: var(--ion-color-primary);
+}
+
+.badges-row {
+  display: flex;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+.mini-chip {
+  height: 20px;
+  font-size: 0.7rem;
+
+  ion-icon { font-size: 0.75rem; }
+}

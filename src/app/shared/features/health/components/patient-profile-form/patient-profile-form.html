@@ -1,0 +1,61 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <ion-item [class.ion-invalid]="isInvalid('diabetes_type_id')">
+    <ion-label position="stacked">Tipo de diabetes *</ion-label>
+    <ion-select formControlName="diabetes_type_id" placeholder="Selecciona tipo">
+      @for (opt of diabetesTypeOptions(); track opt.option_id) {
+        <ion-select-option [value]="opt.option_id">{{ opt.description }}</ion-select-option>
+      }
+    </ion-select>
+    @if (isInvalid('diabetes_type_id')) {
+      <ion-note slot="error">Selecciona el tipo de diabetes</ion-note>
+    }
+  </ion-item>
+
+  <ion-item [class.ion-invalid]="isInvalid('target_min_mgdl')">
+    <ion-label position="stacked">Mínimo objetivo (mg/dL) *</ion-label>
+    <ion-input type="number" formControlName="target_min_mgdl" min="40" max="150" />
+    @if (isInvalid('target_min_mgdl')) {
+      <ion-note slot="error">Valor entre 40 y 150</ion-note>
+    }
+  </ion-item>
+
+  <ion-item [class.ion-invalid]="isInvalid('target_max_mgdl')">
+    <ion-label position="stacked">Máximo objetivo (mg/dL) *</ion-label>
+    <ion-input type="number" formControlName="target_max_mgdl" min="100" max="400" />
+    @if (isInvalid('target_max_mgdl')) {
+      <ion-note slot="error">Valor entre 100 y 400</ion-note>
+    }
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Fecha de nacimiento</ion-label>
+    <ion-input type="date" formControlName="date_of_birth" />
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Género</ion-label>
+    <ion-select formControlName="gender_id" placeholder="Selecciona género (opcional)">
+      @for (opt of genderOptions(); track opt.option_id) {
+        <ion-select-option [value]="opt.option_id">{{ opt.description }}</ion-select-option>
+      }
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Fecha de diagnóstico</ion-label>
+    <ion-input type="date" formControlName="diagnosis_date" />
+  </ion-item>
+
+  <div class="form-actions">
+    <ion-button fill="outline" color="medium" (click)="onCancel()">
+      <ion-icon slot="start" name="close-outline" />
+      Cancelar
+    </ion-button>
+    <ion-button type="submit" color="primary">
+      <ion-icon slot="start" name="save-outline" />
+      Guardar
+    </ion-button>
+  </div>
+
+</form>

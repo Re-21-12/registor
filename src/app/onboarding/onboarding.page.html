@@ -1,0 +1,115 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Configuración inicial</ion-title>
+  </ion-toolbar>
+  <ion-progress-bar [value]="progress()" color="primary" />
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  @if (loading()) {
+    <div class="center-container">
+      <ion-spinner name="crescent" />
+    </div>
+
+  } @else if (error()) {
+    <div class="center-container">
+      <ion-text color="danger">{{ error() }}</ion-text>
+      <ion-button (click)="error.set(null)">Reintentar</ion-button>
+    </div>
+
+  } @else {
+
+    <!-- ── PASO 1: BIENVENIDA ─────────────────── -->
+    @if (currentStep() === 'welcome') {
+      <div class="step-container">
+        <div class="welcome-icon">
+          <ion-icon name="pulse-outline" />
+        </div>
+        <h1 class="welcome-title">¡Hola, {{ userName() }}!</h1>
+        <p class="welcome-subtitle">
+          Antes de comenzar, necesitamos configurar tu perfil para personalizar
+          el seguimiento de tu glucosa.
+        </p>
+        <ul class="steps-preview">
+          <li>
+            <span class="step-number">1</span>
+            Perfil de paciente
+          </li>
+          <li>
+            <span class="step-number">2</span>
+            Primera medición (opcional)
+          </li>
+          <li>
+            <span class="step-number">3</span>
+            ¡Listo para usar!
+          </li>
+        </ul>
+        <ion-button expand="block" (click)="goNext()">
+          Comenzar
+          <ion-icon slot="end" name="arrow-forward-outline" />
+        </ion-button>
+      </div>
+    }
+
+    <!-- ── PASO 2: PERFIL DE PACIENTE ─────────── -->
+    @if (currentStep() === 'profile') {
+      <div class="step-container">
+        <h2 class="step-title">Tu perfil de salud</h2>
+        <p class="step-description">
+          Esta información nos permite calcular tu rango objetivo de glucosa.
+        </p>
+        @if (error()) {
+          <ion-text color="danger">{{ error() }}</ion-text>
+        }
+        <app-patient-profile-form
+          [diabetesTypeOptions]="diabetesTypeOptions()"
+          [genderOptions]="genderOptions()"
+          (save)="onProfileSave($event)"
+          (cancel)="goBack()" />
+      </div>
+    }
+
+    <!-- ── PASO 3: PRIMERA MEDICIÓN ───────────── -->
+    @if (currentStep() === 'measurement') {
+      <div class="step-container">
+        <h2 class="step-title">¿Tienes tu glucómetro a mano?</h2>
+        <p class="step-description">
+          Registra tu primera medición ahora o hazlo más tarde desde la app.
+        </p>
+        @if (error()) {
+          <ion-text color="danger">{{ error() }}</ion-text>
+        }
+        <app-measurement-form
+          [unitOptions]="unitOptions()"
+          [typeOptions]="typeOptions()"
+          [contextOptions]="contextOptions()"
+          (save)="onMeasurementSave($event)"
+          (cancel)="skipMeasurement()" />
+        <ion-button expand="block" fill="outline" color="medium" (click)="skipMeasurement()">
+          Omitir por ahora
+        </ion-button>
+      </div>
+    }
+
+    <!-- ── PASO 4: LISTO ──────────────────────── -->
+    @if (currentStep() === 'done') {
+      <div class="step-container done-container">
+        <div class="done-icon">
+          <ion-icon name="checkmark-done-outline" />
+        </div>
+        <h1 class="done-title">¡Todo listo!</h1>
+        <p class="done-subtitle">
+          Tu perfil está configurado. Ya puedes comenzar a registrar
+          tus mediciones y llevar el control de tu glucosa.
+        </p>
+        <ion-button expand="block" (click)="finish()">
+          Ir a mis mediciones
+          <ion-icon slot="end" name="arrow-forward-outline" />
+        </ion-button>
+      </div>
+    }
+
+  }
+
+</ion-content>

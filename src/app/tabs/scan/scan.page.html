@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Escanear Glucómetro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="scan-area">
+    <input
+      #fileInput
+      type="file"
+      accept="image/jpeg,image/png,image/webp,image/heic"
+      (change)="onFileSelected($event)"
+      hidden />
+
+    <ion-button expand="block" (click)="fileInput.click()" [disabled]="uploading()">
+      @if (uploading()) {
+        <ion-spinner slot="start" name="crescent" />
+        Procesando...
+      } @else {
+        <ion-icon slot="start" name="camera" />
+        Tomar o elegir foto
+      }
+    </ion-button>
+
+    @if (error()) {
+      <div class="error-box">
+        <ion-text color="danger">{{ error() }}</ion-text>
+      </div>
+    }
+
+    @if (currentScan(); as scan) {
+      <ion-card class="result-card">
+        <ion-card-header>
+          <ion-card-title>Resultado del escaneo</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          @if (scan.extracted_value) {
+            <p class="extracted-value">{{ scan.extracted_value }} {{ scan.extracted_unit }}</p>
+            <p>Confianza: {{ scan.ocr_confidence }}%</p>
+          } @else if (scan.error_code) {
+            <ion-text color="danger">
+              <p>{{ scan.error_code }}</p>
+              <p>{{ scan.error_detail }}</p>
+            </ion-text>
+          } @else {
+            <p>Procesando imagen...</p>
+          }
+        </ion-card-content>
+      </ion-card>
+    }
+  </div>
+</ion-content>

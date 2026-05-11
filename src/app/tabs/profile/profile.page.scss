@@ -1,0 +1,42 @@
+.loading-container,
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+
+.avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 0 1rem;
+
+  ion-avatar {
+    width: 80px;
+    height: 80px;
+  }
+
+  .avatar-icon {
+    font-size: 80px;
+    color: var(--ion-color-medium);
+  }
+
+  .user-email {
+    margin-top: 0.5rem;
+    color: var(--ion-color-medium);
+    font-size: 0.9rem;
+  }
+}
+
+.setup-hint {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.signout-btn {
+  margin-top: 2rem;
+}

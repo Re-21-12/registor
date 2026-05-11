@@ -1,0 +1,21 @@
+.scan-area {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 2rem;
+}
+
+.error-box {
+  padding: 0.5rem;
+}
+
+.result-card {
+  margin-top: 1rem;
+}
+
+.extracted-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--ion-color-primary);
+}

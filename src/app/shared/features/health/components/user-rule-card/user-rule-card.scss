@@ -1,0 +1,39 @@
+.rule-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1.1rem;
+
+  ion-icon { color: var(--ion-color-primary); }
+}
+
+.brand {
+  font-size: 0.85rem;
+  color: var(--ion-color-medium);
+}
+
+.chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 0.5rem 0;
+}
+
+.validity-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--ion-color-medium);
+  margin-bottom: 0.5rem;
+}
+
+.instructions {
+  font-size: 0.85rem;
+  color: var(--ion-color-medium);
+  font-style: italic;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+}

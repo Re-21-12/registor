@@ -1,0 +1,112 @@
+.center-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  gap: 1rem;
+}
+
+.step-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1rem 0 2rem;
+}
+
+// ── Welcome ─────────────────────────────────────
+.welcome-icon {
+  text-align: center;
+  margin-bottom: 1.5rem;
+
+  ion-icon {
+    font-size: 5rem;
+    color: var(--ion-color-primary);
+  }
+}
+
+.welcome-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 0.5rem;
+}
+
+.welcome-subtitle {
+  text-align: center;
+  color: var(--ion-color-medium);
+  margin: 0 0 2rem;
+  line-height: 1.5;
+}
+
+.steps-preview {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+  }
+}
+
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--ion-color-primary);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+// ── Steps ────────────────────────────────────────
+.step-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem;
+}
+
+.step-description {
+  color: var(--ion-color-medium);
+  margin: 0 0 1.25rem;
+  line-height: 1.4;
+}
+
+// ── Done ─────────────────────────────────────────
+.done-container {
+  align-items: center;
+  text-align: center;
+  padding-top: 3rem;
+}
+
+.done-icon {
+  margin-bottom: 1.5rem;
+
+  ion-icon {
+    font-size: 6rem;
+    color: var(--ion-color-success);
+  }
+}
+
+.done-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+}
+
+.done-subtitle {
+  color: var(--ion-color-medium);
+  line-height: 1.5;
+  margin: 0 0 2.5rem;
+}

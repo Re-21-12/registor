@@ -1,0 +1,29 @@
+<ion-item>
+  <ion-icon [name]="typeIcon()" slot="start" class="type-icon" />
+
+  <ion-label>
+    <h3>{{ contact().value }}</h3>
+    <div class="badges-row">
+      @if (contact().is_primary) {
+        <ion-chip color="primary" class="mini-chip">
+          <ion-icon name="star" />
+          <ion-label>Principal</ion-label>
+        </ion-chip>
+      }
+      @if (contact().is_verified) {
+        <ion-chip color="success" class="mini-chip">
+          <ion-icon name="checkmark-circle" />
+          <ion-label>Verificado</ion-label>
+        </ion-chip>
+      }
+    </div>
+  </ion-label>
+
+  <ion-button
+    slot="end"
+    fill="clear"
+    color="danger"
+    (click)="deleteClicked.emit(contact().contact_id)">
+    <ion-icon slot="icon-only" name="trash-outline" />
+  </ion-button>
+</ion-item>

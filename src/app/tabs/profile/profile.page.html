@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  @if (loading()) {
+    <div class="loading-container">
+      <ion-spinner name="crescent" />
+    </div>
+  } @else if (error()) {
+    <div class="error-container">
+      <ion-text color="danger">{{ error() }}</ion-text>
+    </div>
+  } @else {
+    <div class="avatar-container">
+      <ion-avatar>
+        <ion-icon name="person-circle" class="avatar-icon" />
+      </ion-avatar>
+      <p class="user-email">{{ userEmail }}</p>
+    </div>
+
+    @if (profile(); as p) {
+      <ion-list>
+        <ion-item>
+          <ion-label>
+            <h3>Rango objetivo</h3>
+            <p>{{ p.target_min_mgdl }} – {{ p.target_max_mgdl }} mg/dL</p>
+          </ion-label>
+        </ion-item>
+        @if (p.date_of_birth) {
+          <ion-item>
+            <ion-label>
+              <h3>Fecha de nacimiento</h3>
+              <p>{{ p.date_of_birth | date:'dd/MM/yyyy' }}</p>
+            </ion-label>
+          </ion-item>
+        }
+        @if (p.diagnosis_date) {
+          <ion-item>
+            <ion-label>
+              <h3>Fecha de diagnóstico</h3>
+              <p>{{ p.diagnosis_date | date:'dd/MM/yyyy' }}</p>
+            </ion-label>
+          </ion-item>
+        }
+      </ion-list>
+    } @else {
+      <div class="setup-hint">
+        <ion-text color="medium">Completa tu perfil de paciente</ion-text>
+        <ion-button expand="block" routerLink="/tabs/profile/setup">
+          Configurar perfil
+        </ion-button>
+      </div>
+    }
+
+    <ion-button
+      expand="block"
+      fill="outline"
+      color="danger"
+      class="signout-btn"
+      (click)="signOut()">
+      Cerrar sesión
+    </ion-button>
+  }
+</ion-content>

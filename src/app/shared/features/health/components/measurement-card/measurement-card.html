@@ -1,0 +1,45 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>
+      <span
+        [appGlucoseColor]="status()"
+        class="glucose-value">
+        {{ meassure().value_mgdl }} mg/dL
+      </span>
+      <span class="mmol-value">
+        ({{ meassure().value_mgdl | mgdlToMmol }} mmol/L)
+      </span>
+    </ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <div class="card-row">
+      <ion-label class="date-label">
+        {{ meassure().measured_at | date:'dd/MM/yyyy HH:mm' }}
+      </ion-label>
+      <ion-badge [color]="badgeColor()">{{ statusLabel() }}</ion-badge>
+    </div>
+
+    @if (meassure().notes) {
+      <p class="notes">{{ meassure().notes }}</p>
+    }
+
+    @if (showActions()) {
+      <div class="card-actions">
+        <ion-button
+          fill="clear"
+          size="small"
+          (click)="editClicked.emit(meassure())">
+          <ion-icon slot="icon-only" name="create-outline" />
+        </ion-button>
+        <ion-button
+          fill="clear"
+          size="small"
+          color="danger"
+          (click)="deleteClicked.emit(meassure().meassure_id)">
+          <ion-icon slot="icon-only" name="trash-outline" />
+        </ion-button>
+      </div>
+    }
+  </ion-card-content>
+</ion-card>
