@@ -1,5 +1,6 @@
 import { Component, input, computed, effect, inject, output } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
+import { TypeFields } from './enums/type-fields';
 import {
   IonButton,
   IonIcon,
@@ -62,12 +63,25 @@ export class DynamicForm {
 
   colSizeSm = computed(() => '12');
 
+  private static readonly EMPTY_TO_NULL_TYPES = new Set<string>([
+    TypeFields.DATE, TypeFields.DATETIME, TypeFields.NUMBER,
+    TypeFields.INTEGER, TypeFields.DECIMAL, TypeFields.CURRENCY,
+    TypeFields.SELECT, TypeFields.MULTISELECT,
+  ]);
+
   onSubmit(): void {
     if (!this.form().valid) {
       this.form().markAllAsTouched();
       return;
     }
-    this.payLoad = JSON.stringify(this.form().value);
+    const raw = this.form().value as Record<string, unknown>;
+    const sanitized: Record<string, unknown> = { ...raw };
+    for (const field of (this.fields() ?? [])) {
+      if (DynamicForm.EMPTY_TO_NULL_TYPES.has(field.controlType) && sanitized[field.key] === '') {
+        sanitized[field.key] = null;
+      }
+    }
+    this.payLoad = JSON.stringify(sanitized);
     this.data.emit(this.payLoad);
   }
 
