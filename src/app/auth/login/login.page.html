@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Registor</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding auth-content">
+  <div class="auth-container">
+    <div class="auth-header">
+      <h1 class="auth-title">Iniciar Sesión</h1>
+      <p class="auth-subtitle">Gestiona tus finanzas personales</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
+
+      <!-- Email -->
+      <ion-item class="auth-item" [class.ion-invalid]="emailCtrl?.invalid && emailCtrl?.touched">
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-input
+          label="Correo electrónico"
+          label-placement="floating"
+          type="email"
+          formControlName="email"
+          placeholder="usuario@ejemplo.com"
+          autocomplete="email"
+        ></ion-input>
+      </ion-item>
+      @if (emailCtrl?.invalid && emailCtrl?.touched) {
+        <ion-text color="danger"><p class="error-msg">
+          @if (emailCtrl?.errors?.['required']) { El correo es obligatorio. }
+          @else { Ingresa un correo válido. }
+        </p></ion-text>
+      }
+
+      <!-- Password -->
+      <ion-item class="auth-item" [class.ion-invalid]="passwordCtrl?.invalid && passwordCtrl?.touched">
+        <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+        <ion-input
+          label="Contraseña"
+          label-placement="floating"
+          [type]="showPassword() ? 'text' : 'password'"
+          formControlName="password"
+          placeholder="Mínimo 6 caracteres"
+          autocomplete="current-password"
+        >
+          <ion-button slot="end" fill="clear" size="small" (click)="togglePassword()" type="button">
+            <ion-icon slot="icon-only" [name]="showPassword() ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+          </ion-button>
+        </ion-input>
+      </ion-item>
+      @if (passwordCtrl?.invalid && passwordCtrl?.touched) {
+        <ion-text color="danger"><p class="error-msg">
+          @if (passwordCtrl?.errors?.['required']) { La contraseña es obligatoria. }
+          @else { Mínimo 6 caracteres. }
+        </p></ion-text>
+      }
+
+      <!-- Submit -->
+      <ion-button
+        type="submit"
+        expand="block"
+        class="auth-btn"
+        [disabled]="loading()"
+      >
+        @if (loading()) { <ion-spinner name="crescent" slot="start"></ion-spinner> }
+        Ingresar
+      </ion-button>
+
+      <!-- Separador -->
+      <div class="separator"><span>o continúa con</span></div>
+
+      <!-- Google OAuth -->
+      <ion-button expand="block" fill="outline" color="dark" class="oauth-btn" (click)="onGoogleLogin()" type="button">
+        <ion-icon slot="start" name="logo-google"></ion-icon>
+        Google
+      </ion-button>
+
+    </form>
+
+    <div class="auth-footer">
+      <a [routerLink]="['/auth/register']">¿No tienes cuenta? Regístrate</a>
+    </div>
+  </div>
+</ion-content>

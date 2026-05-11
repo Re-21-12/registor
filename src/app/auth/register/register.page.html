@@ -1,0 +1,115 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Registor</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding auth-content">
+  <div class="auth-container">
+
+    @if (registered()) {
+      <!-- Confirmación de registro -->
+      <div class="registered-state">
+        <ion-icon name="mail-open-outline" color="success" class="registered-icon"></ion-icon>
+        <h2>¡Cuenta creada!</h2>
+        <p>Revisa tu bandeja de entrada y confirma tu correo electrónico para activar la cuenta.</p>
+        <ion-button [routerLink]="['/auth/login']" expand="block" fill="outline">
+          Ir al inicio de sesión
+        </ion-button>
+      </div>
+
+    } @else {
+      <div class="auth-header">
+        <h1 class="auth-title">Crear cuenta</h1>
+        <p class="auth-subtitle">Empieza a gestionar tus finanzas</p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
+
+        <!-- Nombre completo -->
+        <ion-item class="auth-item" [class.ion-invalid]="fullNameCtrl?.invalid && fullNameCtrl?.touched">
+          <ion-icon name="person-outline" slot="start"></ion-icon>
+          <ion-input
+            label="Nombre completo"
+            label-placement="floating"
+            type="text"
+            formControlName="fullName"
+            placeholder="Juan Pérez"
+            autocomplete="name"
+          ></ion-input>
+        </ion-item>
+        @if (fullNameCtrl?.invalid && fullNameCtrl?.touched) {
+          <ion-text color="danger"><p class="error-msg">Ingresa tu nombre completo (mínimo 2 caracteres).</p></ion-text>
+        }
+
+        <!-- Email -->
+        <ion-item class="auth-item" [class.ion-invalid]="emailCtrl?.invalid && emailCtrl?.touched">
+          <ion-icon name="mail-outline" slot="start"></ion-icon>
+          <ion-input
+            label="Correo electrónico"
+            label-placement="floating"
+            type="email"
+            formControlName="email"
+            placeholder="usuario@ejemplo.com"
+            autocomplete="email"
+          ></ion-input>
+        </ion-item>
+        @if (emailCtrl?.invalid && emailCtrl?.touched) {
+          <ion-text color="danger"><p class="error-msg">Ingresa un correo válido.</p></ion-text>
+        }
+
+        <!-- Password -->
+        <ion-item class="auth-item" [class.ion-invalid]="passwordCtrl?.invalid && passwordCtrl?.touched">
+          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+          <ion-input
+            label="Contraseña"
+            label-placement="floating"
+            [type]="showPassword() ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="Mínimo 8 caracteres"
+            autocomplete="new-password"
+          >
+            <ion-button slot="end" fill="clear" size="small" (click)="togglePassword()" type="button">
+              <ion-icon slot="icon-only" [name]="showPassword() ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+            </ion-button>
+          </ion-input>
+        </ion-item>
+        @if (passwordCtrl?.invalid && passwordCtrl?.touched) {
+          <ion-text color="danger"><p class="error-msg">Mínimo 8 caracteres.</p></ion-text>
+        }
+
+        <!-- Confirm Password -->
+        <ion-item class="auth-item" [class.ion-invalid]="confirmPasswordCtrl?.touched && form.errors?.['passwordMismatch']">
+          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+          <ion-input
+            label="Confirmar contraseña"
+            label-placement="floating"
+            [type]="showPassword() ? 'text' : 'password'"
+            formControlName="confirmPassword"
+            placeholder="Repite tu contraseña"
+            autocomplete="new-password"
+          ></ion-input>
+        </ion-item>
+        @if (confirmPasswordCtrl?.touched && form.errors?.['passwordMismatch']) {
+          <ion-text color="danger"><p class="error-msg">Las contraseñas no coinciden.</p></ion-text>
+        }
+
+        <ion-button
+          type="submit"
+          expand="block"
+          class="auth-btn"
+          [disabled]="loading()"
+        >
+          @if (loading()) { <ion-spinner name="crescent" slot="start"></ion-spinner> }
+          Crear cuenta
+        </ion-button>
+
+      </form>
+
+      <div class="auth-footer">
+        <a [routerLink]="['/auth/login']">¿Ya tienes cuenta? Inicia sesión</a>
+      </div>
+    }
+
+  </div>
+</ion-content>
