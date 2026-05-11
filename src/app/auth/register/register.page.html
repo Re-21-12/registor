@@ -12,77 +12,29 @@
       <p>Crea tu cuenta gratuita</p>
     </div>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <app-dynamic-form
+      [fields]="registerFields"
+      [hideActions]="true"
+      (data)="onData($event)"
+      #dynForm
+    />
 
-      <ion-item [class.ion-invalid]="isInvalid('fullName')">
-        <ion-label position="stacked">Nombre completo</ion-label>
-        <ion-input
-          type="text"
-          autocomplete="name"
-          formControlName="fullName"
-          placeholder="Juan Pérez" />
-        @if (isInvalid('fullName')) {
-          <ion-note slot="error">Mínimo 3 caracteres</ion-note>
-        }
-      </ion-item>
+    @if (error()) {
+      <div class="error-banner">
+        <ion-text color="danger">{{ error() }}</ion-text>
+      </div>
+    }
 
-      <ion-item [class.ion-invalid]="isInvalid('email')">
-        <ion-label position="stacked">Correo electrónico</ion-label>
-        <ion-input
-          type="email"
-          inputmode="email"
-          autocomplete="email"
-          formControlName="email"
-          placeholder="usuario@correo.com" />
-        @if (isInvalid('email')) {
-          <ion-note slot="error">Ingresa un correo válido</ion-note>
-        }
-      </ion-item>
-
-      <ion-item [class.ion-invalid]="isInvalid('password')">
-        <ion-label position="stacked">Contraseña</ion-label>
-        <ion-input
-          [type]="showPassword() ? 'text' : 'password'"
-          autocomplete="new-password"
-          formControlName="password"
-          placeholder="••••••••" />
-        <ion-button slot="end" fill="clear" (click)="showPassword.set(!showPassword())">
-          <ion-icon [name]="showPassword() ? 'eye-off-outline' : 'eye-outline'" />
-        </ion-button>
-        @if (isInvalid('password')) {
-          <ion-note slot="error">Mínimo 6 caracteres</ion-note>
-        }
-      </ion-item>
-
-      <ion-item [class.ion-invalid]="isInvalid('confirmPassword')">
-        <ion-label position="stacked">Confirmar contraseña</ion-label>
-        <ion-input
-          [type]="showPassword() ? 'text' : 'password'"
-          autocomplete="new-password"
-          formControlName="confirmPassword"
-          placeholder="••••••••" />
-        @if (isInvalid('confirmPassword')) {
-          <ion-note slot="error">Confirma tu contraseña</ion-note>
-        }
-      </ion-item>
-
-      @if (error()) {
-        <div class="error-banner">
-          <ion-text color="danger">{{ error() }}</ion-text>
-        </div>
+    <ion-button expand="block" [disabled]="loading()" class="submit-btn"
+      (click)="dynForm.onSubmit()">
+      @if (loading()) {
+        <ion-spinner slot="start" name="crescent" />
+        Registrando...
+      } @else {
+        <ion-icon slot="start" name="person-add-outline" />
+        Registrarse
       }
-
-      <ion-button expand="block" type="submit" [disabled]="loading()" class="submit-btn">
-        @if (loading()) {
-          <ion-spinner slot="start" name="crescent" />
-          Registrando...
-        } @else {
-          <ion-icon slot="start" name="person-add-outline" />
-          Registrarse
-        }
-      </ion-button>
-
-    </form>
+    </ion-button>
 
     <p class="login-link">
       ¿Ya tienes cuenta?

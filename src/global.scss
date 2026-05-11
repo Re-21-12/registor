@@ -25,13 +25,123 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
-
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+// ── Toolbar ────────────────────────────────────────────────────────────────
+ion-toolbar {
+  --background:       var(--ion-background-color);
+  --border-color:     transparent;
+  --padding-start:    20px;
+  --padding-end:      20px;
+  --min-height:       56px;
+}
+
+ion-header::after { display: none; }
+
+ion-title {
+  font-weight:    700;
+  font-size:      1.15rem;
+  letter-spacing: -0.025em;
+  padding-inline: 0;
+}
+
+// ── Tab bar ────────────────────────────────────────────────────────────────
+ion-tab-bar {
+  --background:   var(--app-surface);
+  --border:       none;
+  border-radius:  20px 20px 0 0;
+  box-shadow:     0 -4px 20px rgba(79, 110, 247, 0.09);
+  height:         64px;
+  padding-top:    4px;
+}
+
+ion-tab-button {
+  --color:          var(--ion-color-medium);
+  --color-selected: var(--ion-color-primary);
+  font-size:        0.68rem;
+  font-weight:      500;
+  letter-spacing:   0.01em;
+
+  ion-icon {
+    font-size: 1.4rem;
+    margin-bottom: 2px;
+  }
+}
+
+// ── Cards ──────────────────────────────────────────────────────────────────
+ion-card {
+  border-radius: var(--app-radius) !important;
+  box-shadow:    var(--app-shadow) !important;
+  margin:        0 0 12px !important;
+}
+
+ion-card-title {
+  font-size:      1rem;
+  font-weight:    600;
+  letter-spacing: -0.015em;
+}
+
+// ── Items ──────────────────────────────────────────────────────────────────
+ion-item {
+  --border-color:       transparent;
+  --inner-border-width: 0;
+  --highlight-color-focused: transparent;
+}
+
+// ── Buttons ────────────────────────────────────────────────────────────────
+ion-button {
+  --border-radius:  12px;
+  font-weight:      600;
+  font-size:        0.95rem;
+  letter-spacing:   -0.01em;
+  height:           48px;
+  text-transform:   none;
+}
+
+// ── FAB ────────────────────────────────────────────────────────────────────
+ion-fab-button {
+  --background:  var(--ion-color-primary);
+  --box-shadow:  0 6px 20px rgba(79, 110, 247, 0.45);
+  --border-radius: 16px;
+  width:  52px;
+  height: 52px;
+}
+
+// ── Spinner ────────────────────────────────────────────────────────────────
+ion-spinner { --color: var(--ion-color-primary); }
+
+// ── Input / Select ─────────────────────────────────────────────────────────
+ion-input, ion-select, ion-textarea {
+  --background:          var(--app-surface);
+  --border-radius:       var(--app-radius-sm);
+  --highlight-color-focused: var(--ion-color-primary);
+  --highlight-color-invalid: var(--ion-color-danger);
+  margin-bottom: 16px;
+}
+
+// ── Autofill fix (yellow browser highlight) ────────────────────────────────
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition:
+    background-color 600000s ease-in-out 0s !important,
+    color            600000s ease-in-out 0s !important;
+}
+
+// ── Full-screen states ─────────────────────────────────────────────────────
+.state-center {
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  gap:             12px;
+  height:          60vh;
+  text-align:      center;
+  color:           var(--ion-color-medium);
+}
+
+.state-center ion-icon {
+  font-size: 3rem;
+  opacity:   0.4;
+}

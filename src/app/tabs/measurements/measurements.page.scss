@@ -1,17 +1,153 @@
-.loading-container,
-.empty-container,
-.error-container {
+.page-content {
+  padding: 16px 16px 80px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 60vh;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.glucose-value {
-  font-size: 1.2rem;
-  font-weight: 600;
+// ── Summary card ──────────────────────────────────────────
+.summary-card {
+  background:    linear-gradient(135deg, var(--ion-color-primary) 0%, #7C96FA 100%);
+  border-radius: var(--app-radius);
+  padding:       20px 24px;
+  color:         #fff;
+  margin-bottom: 4px;
+  box-shadow:    0 6px 24px rgba(79, 110, 247, 0.35);
 }
 
+.summary-label {
+  font-size:   0.75rem;
+  font-weight: 500;
+  opacity:     0.85;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.summary-row {
+  display:     flex;
+  align-items: baseline;
+  gap:         6px;
+  margin:      8px 0 4px;
+}
+
+.summary-value {
+  font-size:   3rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.summary-unit {
+  font-size:   1rem;
+  font-weight: 400;
+  opacity:     0.85;
+  align-self:  flex-end;
+  margin-bottom: 4px;
+}
+
+.summary-date {
+  font-size:  0.8rem;
+  opacity:    0.75;
+  font-weight: 400;
+}
+
+// ── Status pill (on summary card) ─────────────────────────
+.status-pill {
+  margin-left:   auto;
+  padding:       4px 10px;
+  border-radius: 20px;
+  font-size:     0.72rem;
+  font-weight:   600;
+  text-transform: capitalize;
+  align-self:    center;
+
+  &.pill-in-range { background: rgba(255,255,255,0.25); }
+  &.pill-high     { background: rgba(239, 68, 68, 0.35); }
+  &.pill-low      { background: rgba(245, 158, 11, 0.35); }
+}
+
+// ── Section title ─────────────────────────────────────────
+.section-title {
+  font-size:      0.75rem;
+  font-weight:    600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color:          var(--ion-color-medium);
+  margin:         8px 4px 4px;
+}
+
+// ── Measure cards ─────────────────────────────────────────
+.measure-card {
+  background:    var(--app-surface);
+  border-radius: var(--app-radius-sm);
+  box-shadow:    var(--app-shadow-sm);
+  padding:       14px 16px;
+  display:       flex;
+  align-items:   center;
+  gap:           14px;
+  border-left:   4px solid transparent;
+  transition:    box-shadow 0.15s ease;
+
+  &:active { box-shadow: none; }
+
+  &.border-in-range { border-left-color: var(--ion-color-success); }
+  &.border-high     { border-left-color: var(--ion-color-danger); }
+  &.border-low      { border-left-color: var(--ion-color-warning); }
+}
+
+.measure-left {
+  display:     flex;
+  align-items: baseline;
+  gap:         4px;
+  min-width:   70px;
+}
+
+.measure-value {
+  font-size:   1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.measure-unit {
+  font-size:  0.7rem;
+  color:      var(--ion-color-medium);
+  font-weight: 400;
+}
+
+.measure-right {
+  display:        flex;
+  flex-direction: column;
+  gap:            2px;
+  flex:           1;
+}
+
+.measure-date {
+  font-size:  0.82rem;
+  color:      var(--ion-color-medium);
+  font-weight: 500;
+}
+
+.measure-notes {
+  font-size:  0.78rem;
+  color:      var(--ion-color-medium);
+  white-space: nowrap;
+  overflow:   hidden;
+  text-overflow: ellipsis;
+}
+
+// ── Status dot ────────────────────────────────────────────
+.status-dot {
+  width:  8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+
+  &.dot-in-range { background: var(--ion-color-success); }
+  &.dot-high     { background: var(--ion-color-danger); }
+  &.dot-low      { background: var(--ion-color-warning); }
+}
+
+// ── Glucose color classes (directive) ─────────────────────
 :global(.glucose-low)      { color: var(--ion-color-warning); }
 :global(.glucose-in-range) { color: var(--ion-color-success); }
 :global(.glucose-high)     { color: var(--ion-color-danger);  }

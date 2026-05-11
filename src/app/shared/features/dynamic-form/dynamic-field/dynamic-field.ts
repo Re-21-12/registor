@@ -1,4 +1,4 @@
-import { Component, input, signal, computed, OnInit } from '@angular/core';
+import { Component, input, signal, computed, inject, OnInit } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, FormControl, FormArray } from '@angular/forms';
 import {
   IonItem,
@@ -14,6 +14,7 @@ import {
   IonIcon,
   IonLabel,
   IonNote,
+  IonSpinner,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -27,65 +28,51 @@ import { FieldBase } from '../interfaces/field-props';
 import { DynamicErrors } from '../dynamic-errors/dynamic-errors';
 import { DynamicHint } from '../dynamic-hint/dynamic-hint';
 import { TypeFields } from '../enums/type-fields';
+import { CatalogOptionsService, CatalogOption } from '../services/catalog-options.service';
 import {
-  onKeypressEmail,
-  onKeypressEntero,
-  onKeypressDecimal,
-  onKeypressMoneda,
-  onKeypressLetras,
+  onKeypressEmail, onKeypressEntero, onKeypressDecimal,
+  onKeypressMoneda, onKeypressLetras,
 } from '../utils/on-input-validator';
 import {
-  validarEmailPaste,
-  validarEnteroPaste,
-  validarDecimalPaste,
-  validarMonedaPaste,
-  validarLetrasPaste,
+  validarEmailPaste, validarEnteroPaste, validarDecimalPaste,
+  validarMonedaPaste, validarLetrasPaste,
 } from '../utils/on-paste-validator';
 
 @Component({
   selector: 'app-dynamic-field',
   imports: [
     ReactiveFormsModule,
-    IonItem,
-    IonInput,
-    IonTextarea,
-    IonSelect,
-    IonSelectOption,
-    IonCheckbox,
-    IonRadioGroup,
-    IonRadio,
-    IonToggle,
-    IonButton,
-    IonIcon,
-    IonLabel,
-    IonNote,
-    DynamicErrors,
-    DynamicHint,
+    IonItem, IonInput, IonTextarea, IonSelect, IonSelectOption,
+    IonCheckbox, IonRadioGroup, IonRadio, IonToggle,
+    IonButton, IonIcon, IonLabel, IonNote, IonSpinner,
+    DynamicErrors, DynamicHint,
   ],
   templateUrl: './dynamic-field.html',
   styleUrl: './dynamic-field.scss',
 })
 export class DynamicField implements OnInit {
+  private readonly catalogOptions = inject(CatalogOptionsService);
+
   // Validadores keypress
-  onKeypressEmail = onKeypressEmail;
-  onKeypressEntero = onKeypressEntero;
+  onKeypressEmail   = onKeypressEmail;
+  onKeypressEntero  = onKeypressEntero;
   onKeypressDecimal = onKeypressDecimal;
-  onKeypressMoneda = onKeypressMoneda;
-  onKeypressLetras = onKeypressLetras;
+  onKeypressMoneda  = onKeypressMoneda;
+  onKeypressLetras  = onKeypressLetras;
 
   // Validadores paste
-  validarEmailPaste = validarEmailPaste;
-  validarEnteroPaste = validarEnteroPaste;
+  validarEmailPaste   = validarEmailPaste;
+  validarEnteroPaste  = validarEnteroPaste;
   validarDecimalPaste = validarDecimalPaste;
-  validarMonedaPaste = validarMonedaPaste;
-  validarLetrasPaste = validarLetrasPaste;
+  validarMonedaPaste  = validarMonedaPaste;
+  validarLetrasPaste  = validarLetrasPaste;
 
   TypeFields = TypeFields;
 
   fieldControl = input.required<FieldBase<string>>();
-  readonly form = input.required<FormGroup>();
+  readonly form        = input.required<FormGroup>();
   readonly isArrayItem = input<boolean>(false);
-  readonly arrayIndex = input<number | null>(null);
+  readonly arrayIndex  = input<number | null>(null);
 
   showPassword = signal(false);
 
@@ -111,18 +98,38 @@ export class DynamicField implements OnInit {
     return formGroup.get(key) as FormControl;
   });
 
+  /** Opciones resueltas: del servicio (source) o estáticas (options). */
+  displayOptions = computed<CatalogOption[]>(() => {
+    const field = this.fieldProps();
+    if (field.source) {
+      return this.catalogOptions.getOptions(field.key);
+    }
+    return (field.options ?? []).map(o => ({ key: o.key, value: o.value }));
+  });
+
+  /** Verdadero mientras el servicio carga opciones desde Supabase. */
+  isLoadingOptions = computed(() => {
+    const field = this.fieldProps();
+    return !!field.source && this.catalogOptions.isLoading(field.key);
+  });
+
   ngOnInit(): void {
     addIcons({ eyeOutline, eyeOffOutline, addOutline, closeOutline, calendarOutline });
+
+    const field = this.fieldControl();
+    const isSelectField = field.type === TypeFields.SELECT
+                       || field.type === TypeFields.MULTISELECT;
+
+    if (isSelectField && field.source) {
+      // Carga todas las páginas en segundo plano (cursor pagination automático)
+      this.catalogOptions.loadAll(field.key, field.source);
+    }
   }
 
   isTextualField(): boolean {
     return [
-      TypeFields.TEXT,
-      TypeFields.EMAIL,
-      TypeFields.INTEGER,
-      TypeFields.DECIMAL,
-      TypeFields.CURRENCY,
-      TypeFields.TEXTAREA,
+      TypeFields.TEXT, TypeFields.EMAIL, TypeFields.INTEGER,
+      TypeFields.DECIMAL, TypeFields.CURRENCY, TypeFields.TEXTAREA,
       TypeFields.PASSWORD,
     ].includes(this.fieldProps().type as TypeFields);
   }
@@ -131,7 +138,7 @@ export class DynamicField implements OnInit {
 
   getMaxLength(): number | null {
     if (this.maxLengthCache !== undefined) return this.maxLengthCache;
-    const control = this.formControl();
+    const control   = this.formControl();
     const validator = control?.validator;
     if (!validator) { this.maxLengthCache = null; return null; }
     const probeControl = { value: 'x'.repeat(5000) } as FormControl;

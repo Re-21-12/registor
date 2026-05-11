@@ -46,7 +46,7 @@
     </ion-row>
   </ion-grid>
 
-  @if (!readonlyMode()) {
+  @if (!readonlyMode() && !hideActions()) {
     <div class="form-actions">
       <ion-button
         fill="outline"

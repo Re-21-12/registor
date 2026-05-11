@@ -33,6 +33,11 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
+              },
+              {
+                "glob": "worker.min.js",
+                "input": "node_modules/tesseract.js/dist",
+                "output": "assets/tesseract"
               }
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss"],
