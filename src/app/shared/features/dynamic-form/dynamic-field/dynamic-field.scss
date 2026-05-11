@@ -1,0 +1,31 @@
+.field-wrapper {
+  width: 100%;
+}
+
+.currency-symbol {
+  font-size: 16px;
+  font-weight: 600;
+  padding-top: 18px;
+  margin-right: 4px;
+}
+
+.textarea-icon {
+  align-self: flex-start;
+  margin-top: 18px;
+}
+
+.radio-group-wrapper {
+  padding: 8px 0;
+
+  .radio-group-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ion-color-medium);
+    padding: 0 16px 8px;
+  }
+}
+
+.required-mark {
+  color: var(--ion-color-danger);
+}

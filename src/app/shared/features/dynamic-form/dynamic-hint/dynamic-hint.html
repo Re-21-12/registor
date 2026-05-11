@@ -1,0 +1,12 @@
+@if (hint() || (currentLength() !== null && maxLength() !== null)) {
+  <div class="hint-container">
+    @if (hint()) {
+      <ion-note class="hint-text">{{ hint() }}</ion-note>
+    }
+    @if (currentLength() !== null && maxLength() !== null) {
+      <ion-note class="char-count" [color]="currentLength()! >= maxLength()! ? 'danger' : 'medium'">
+        {{ currentLength() }} / {{ maxLength() }}
+      </ion-note>
+    }
+  </div>
+}

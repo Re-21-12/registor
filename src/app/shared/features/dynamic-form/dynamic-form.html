@@ -1,0 +1,75 @@
+<form class="dynamic-form">
+  <ion-grid>
+    <ion-row>
+      @for (field of fields(); track field.key) {
+        <ion-col [size]="colSizeSm()" [sizeMd]="colSize()">
+
+          @if (isRepeatableField(field)) {
+            <!-- Campo Repetible -->
+            <div class="repeatable-field">
+              @for (control of getFormArray(field.key).controls; track i; let i = $index) {
+                <app-dynamic-field
+                  [fieldControl]="field"
+                  [form]="form()"
+                  [isArrayItem]="true"
+                  [arrayIndex]="i"
+                />
+                <div class="repeatable-actions">
+                  <ion-button
+                    fill="outline"
+                    color="danger"
+                    size="small"
+                    (click)="removeField(field.key, i)"
+                    [disabled]="getFormArray(field.key).length === field.state.repeatible.minItems"
+                  >
+                    <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+                  </ion-button>
+                  <ion-button
+                    fill="outline"
+                    color="success"
+                    size="small"
+                    (click)="addField(field.key)"
+                    [disabled]="getFormArray(field.key).length >= field.state.repeatible.maxItems"
+                  >
+                    <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+                  </ion-button>
+                </div>
+              }
+            </div>
+          } @else {
+            <!-- Campo Normal -->
+            <app-dynamic-field [fieldControl]="field" [form]="form()" />
+          }
+
+        </ion-col>
+      }
+    </ion-row>
+  </ion-grid>
+
+  @if (!readonlyMode()) {
+    <div class="form-actions">
+      <ion-button
+        fill="outline"
+        color="medium"
+        (click)="onClear()"
+        [disabled]="form().pristine"
+      >
+        <ion-icon slot="start" name="refresh-outline"></ion-icon>
+        Limpiar
+      </ion-button>
+
+      <ion-button
+        color="success"
+        (click)="onSubmit()"
+        [disabled]="loadingService.isLoading()"
+      >
+        @if (loadingService.isLoading()) {
+          <ion-spinner name="crescent" slot="start"></ion-spinner>
+        } @else {
+          <ion-icon slot="start" name="save-outline"></ion-icon>
+        }
+        Guardar
+      </ion-button>
+    </div>
+  }
+</form>
