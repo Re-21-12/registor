@@ -63,8 +63,6 @@
           <ion-text color="danger">{{ error() }}</ion-text>
         }
         <app-patient-profile-form
-          [diabetesTypeOptions]="diabetesTypeOptions()"
-          [genderOptions]="genderOptions()"
           (save)="onProfileSave($event)"
           (cancel)="goBack()" />
       </div>
@@ -81,9 +79,6 @@
           <ion-text color="danger">{{ error() }}</ion-text>
         }
         <app-measurement-form
-          [unitOptions]="unitOptions()"
-          [typeOptions]="typeOptions()"
-          [contextOptions]="contextOptions()"
           (save)="onMeasurementSave($event)"
           (cancel)="skipMeasurement()" />
         <ion-button expand="block" fill="outline" color="medium" (click)="skipMeasurement()">

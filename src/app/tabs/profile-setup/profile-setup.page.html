@@ -8,17 +8,10 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  @if (loading()) {
-    <div class="loading-container">
-      <ion-spinner name="crescent" />
-    </div>
-  } @else if (error()) {
+  @if (error()) {
     <ion-text color="danger">{{ error() }}</ion-text>
-  } @else {
-    <app-patient-profile-form
-      [diabetesTypeOptions]="diabetesTypeOptions()"
-      [genderOptions]="genderOptions()"
-      (save)="onSave($event)"
-      (cancel)="onCancel()" />
   }
+  <app-patient-profile-form
+    (save)="onSave($event)"
+    (cancel)="onCancel()" />
 </ion-content>
