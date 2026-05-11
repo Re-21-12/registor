@@ -1,0 +1,7 @@
+{
+  "name": "registor",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
