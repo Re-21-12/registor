@@ -30,6 +30,7 @@ export class DynamicForm {
   readonly fields = input<FieldBase<string>[] | null>([]);
   readonly initialData = input<Record<string, any> | null>(null);
   readonly readonlyMode = input<boolean>(false);
+  readonly hideActions = input<boolean>(false);
 
   readonly form = computed<FormGroup>(() =>
     this._fb.toFormGroup(this.fields() as FieldBase<string>[]),

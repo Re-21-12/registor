@@ -243,13 +243,17 @@
           [label]="labelText()"
           label-placement="floating"
           [formControl]="formControl()"
-          [placeholder]="fieldProps().placeholder || 'Selecciona una opción'"
+          [placeholder]="isLoadingOptions() ? 'Cargando opciones…' : (fieldProps().placeholder || 'Selecciona una opción')"
+          [disabled]="isLoadingOptions()"
           interface="action-sheet"
         >
-          @for (option of fieldProps().options; track option.key) {
+          @for (option of displayOptions(); track option.key) {
             <ion-select-option [value]="option.key">{{ option.value }}</ion-select-option>
           }
         </ion-select>
+        @if (isLoadingOptions()) {
+          <ion-spinner name="crescent" slot="end" class="select-spinner" />
+        }
       </ion-item>
       <app-dynamic-hint [hint]="fieldProps().hint || null" [field]="formControl()" />
       <app-dynamic-errors [field]="formControl()" />
@@ -265,14 +269,18 @@
           [label]="labelText()"
           label-placement="floating"
           [formControl]="formControl()"
-          [placeholder]="fieldProps().placeholder || 'Selecciona opciones'"
+          [placeholder]="isLoadingOptions() ? 'Cargando opciones…' : (fieldProps().placeholder || 'Selecciona opciones')"
+          [disabled]="isLoadingOptions()"
           [multiple]="true"
           interface="alert"
         >
-          @for (option of fieldProps().options; track option.key) {
+          @for (option of displayOptions(); track option.key) {
             <ion-select-option [value]="option.key">{{ option.value }}</ion-select-option>
           }
         </ion-select>
+        @if (isLoadingOptions()) {
+          <ion-spinner name="crescent" slot="end" class="select-spinner" />
+        }
       </ion-item>
       <app-dynamic-hint [hint]="fieldProps().hint || null" [field]="formControl()" />
       <app-dynamic-errors [field]="formControl()" />

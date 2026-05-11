@@ -1,11 +1,10 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import {
-  IonHeader, IonToolbar, IonTitle, IonContent, IonList,
-  IonItem, IonLabel, IonBadge, IonFab, IonFabButton, IonIcon,
-  IonSpinner, IonText,
+  IonHeader, IonToolbar, IonTitle, IonContent,
+  IonFab, IonFabButton, IonIcon, IonSpinner, IonText,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { add } from 'ionicons/icons';
+import { add, barChartOutline, alertCircleOutline } from 'ionicons/icons';
 import { DatePipe } from '@angular/common';
 import { MeassureService } from '../../shared/features/health/services/meassure.service';
 import { PatientProfileService } from '../../shared/features/health/services/patient-profile.service';
@@ -18,9 +17,9 @@ import { Meassure, GlucoseStatus } from '../../shared/features/health/types';
   templateUrl: 'measurements.page.html',
   styleUrls:   ['measurements.page.scss'],
   imports: [
-    IonHeader, IonToolbar, IonTitle, IonContent, IonList,
-    IonItem, IonLabel, IonBadge, IonFab, IonFabButton, IonIcon,
-    IonSpinner, IonText, DatePipe, GlucoseStatusPipe, GlucoseColorDirective,
+    IonHeader, IonToolbar, IonTitle, IonContent,
+    IonFab, IonFabButton, IonIcon, IonSpinner, IonText,
+    DatePipe, GlucoseStatusPipe, GlucoseColorDirective,
   ],
 })
 export class MeasurementsPage implements OnInit {
@@ -35,7 +34,7 @@ export class MeasurementsPage implements OnInit {
   get targetMax(): number { return this.patientProfileService.currentProfile()?.target_max_mgdl ?? 140; }
 
   constructor() {
-    addIcons({ add });
+    addIcons({ add, barChartOutline, alertCircleOutline });
   }
 
   async ngOnInit(): Promise<void> {

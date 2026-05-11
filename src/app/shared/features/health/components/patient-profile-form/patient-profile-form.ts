@@ -1,8 +1,8 @@
 import { Component, effect, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
-  IonButton, IonIcon, IonItem, IonInput,
-  IonLabel, IonSelect, IonSelectOption, IonNote,
+  IonButton, IonIcon, IonInput,
+  IonSelect, IonSelectOption,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { saveOutline, closeOutline } from 'ionicons/icons';
@@ -15,8 +15,8 @@ import { CreatePatientProfileRequest } from '../../types';
   styleUrl: './patient-profile-form.scss',
   imports: [
     ReactiveFormsModule,
-    IonButton, IonIcon, IonItem, IonInput,
-    IonLabel, IonSelect, IonSelectOption, IonNote,
+    IonButton, IonIcon, IonInput,
+    IonSelect, IonSelectOption,
   ],
 })
 export class PatientProfileForm {

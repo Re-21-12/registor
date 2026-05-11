@@ -1,2 +1,93 @@
-// For information on how to create your own theme, please refer to:
-// https://ionicframework.com/docs/theming/
+:root {
+  // ── Primary: Indigo ─────────────────────────────────────
+  --ion-color-primary:               #4F6EF7;
+  --ion-color-primary-rgb:           79, 110, 247;
+  --ion-color-primary-contrast:      #ffffff;
+  --ion-color-primary-contrast-rgb:  255, 255, 255;
+  --ion-color-primary-shade:         #4561D9;
+  --ion-color-primary-tint:          #617FF8;
+
+  // ── Success: Emerald ────────────────────────────────────
+  --ion-color-success:               #10B981;
+  --ion-color-success-rgb:           16, 185, 129;
+  --ion-color-success-contrast:      #ffffff;
+  --ion-color-success-contrast-rgb:  255, 255, 255;
+  --ion-color-success-shade:         #0EA270;
+  --ion-color-success-tint:          #28C48E;
+
+  // ── Warning: Amber ──────────────────────────────────────
+  --ion-color-warning:               #F59E0B;
+  --ion-color-warning-rgb:           245, 158, 11;
+  --ion-color-warning-contrast:      #ffffff;
+  --ion-color-warning-contrast-rgb:  255, 255, 255;
+  --ion-color-warning-shade:         #D88B0A;
+  --ion-color-warning-tint:          #F6A823;
+
+  // ── Danger: Red ─────────────────────────────────────────
+  --ion-color-danger:                #EF4444;
+  --ion-color-danger-rgb:            239, 68, 68;
+  --ion-color-danger-contrast:       #ffffff;
+  --ion-color-danger-contrast-rgb:   255, 255, 255;
+  --ion-color-danger-shade:          #D23C3C;
+  --ion-color-danger-tint:           #F15757;
+
+  // ── Medium / Dark ────────────────────────────────────────
+  --ion-color-medium:                #94A3B8;
+  --ion-color-medium-rgb:            148, 163, 184;
+  --ion-color-medium-contrast:       #ffffff;
+  --ion-color-medium-shade:          #7E8EA6;
+  --ion-color-medium-tint:           #9FAEBC;
+
+  // ── App background & surfaces ───────────────────────────
+  --ion-background-color:            #F4F6FF;
+  --ion-background-color-rgb:        244, 246, 255;
+  --ion-card-background:             #FFFFFF;
+  --ion-item-background:             transparent;
+
+  // ── Typography ──────────────────────────────────────────
+  --ion-font-family:                 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --ion-text-color:                  #0F172A;
+  --ion-text-color-rgb:              15, 23, 42;
+
+  // ── Custom design tokens ─────────────────────────────────
+  --app-radius:                      16px;
+  --app-radius-sm:                   10px;
+  --app-shadow:                      0 2px 16px rgba(79, 110, 247, 0.10);
+  --app-shadow-sm:                   0 1px 6px rgba(79, 110, 247, 0.07);
+  --app-surface:                     #FFFFFF;
+}
+
+// ── Dark mode ──────────────────────────────────────────────
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ion-background-color:           #0B1120;
+    --ion-background-color-rgb:       11, 17, 32;
+    --ion-card-background:            #151F35;
+    --ion-text-color:                 #E2E8F0;
+    --ion-text-color-rgb:             226, 232, 240;
+    --ion-app-surface:                #151F35;
+    --app-shadow:                     0 2px 16px rgba(0, 0, 0, 0.35);
+    --app-shadow-sm:                  0 1px 6px rgba(0, 0, 0, 0.25);
+    --app-surface:                    #151F35;
+
+    --ion-color-step-50:              #141E33;
+    --ion-color-step-100:             #1A2840;
+    --ion-color-step-150:             #20324D;
+    --ion-color-step-200:             #263C5A;
+    --ion-color-step-250:             #2C4667;
+    --ion-color-step-300:             #325074;
+    --ion-color-step-350:             #385A81;
+    --ion-color-step-400:             #3E648E;
+    --ion-color-step-450:             #446E9B;
+    --ion-color-step-500:             #4A78A8;
+    --ion-color-step-550:             #5A85B3;
+    --ion-color-step-600:             #6A93BD;
+    --ion-color-step-650:             #7AA0C7;
+    --ion-color-step-700:             #8AAED1;
+    --ion-color-step-750:             #9ABBDB;
+    --ion-color-step-800:             #AAC9E5;
+    --ion-color-step-850:             #BAD6EF;
+    --ion-color-step-900:             #CAE4F9;
+    --ion-color-step-950:             #DAF1FF;
+  }
+}

@@ -1,54 +1,45 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import {
   IonHeader, IonToolbar, IonTitle, IonContent,
-  IonItem, IonInput, IonLabel, IonButton, IonIcon,
-  IonNote, IonText, IonSpinner,
+  IonButton, IonIcon, IonText, IonSpinner,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { logInOutline, eyeOutline, eyeOffOutline } from 'ionicons/icons';
+import { logInOutline } from 'ionicons/icons';
 import { AuthService } from '../../shared/features/auth/services/auth.service';
+import { DynamicForm } from '../../shared/features/dynamic-form/dynamic-form';
+import { FieldBase } from '../../shared/features/dynamic-form/interfaces/field-props';
+import { formFields } from '../../shared/features/dynamic-form/utils/forms';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   imports: [
-    ReactiveFormsModule, RouterLink,
+    RouterLink,
     IonHeader, IonToolbar, IonTitle, IonContent,
-    IonItem, IonInput, IonLabel, IonButton, IonIcon,
-    IonNote, IonText, IonSpinner,
+    IonButton, IonIcon, IonText, IonSpinner,
+    DynamicForm,
   ],
 })
 export class LoginPage {
   private authService = inject(AuthService);
   private router      = inject(Router);
 
-  loading      = signal(false);
-  error        = signal<string | null>(null);
-  showPassword = signal(false);
+  loading = signal(false);
+  error   = signal<string | null>(null);
 
-  form = new FormGroup({
-    email:    new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
-    password: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(6)] }),
-  });
+  readonly loginFields: FieldBase<string>[] = formFields['loginForm'].fields;
 
   constructor() {
-    addIcons({ logInOutline, eyeOutline, eyeOffOutline });
+    addIcons({ logInOutline });
   }
 
-  async onSubmit(): Promise<void> {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
+  async onData(payload: string): Promise<void> {
+    const { email, password } = JSON.parse(payload) as { email: string; password: string };
     this.loading.set(true);
     this.error.set(null);
-
     try {
-      const { email, password } = this.form.getRawValue();
       await this.authService.signIn(email, password);
       this.router.navigate(['/onboarding']);
     } catch (e: any) {
@@ -56,10 +47,5 @@ export class LoginPage {
     } finally {
       this.loading.set(false);
     }
-  }
-
-  isInvalid(field: string): boolean {
-    const ctrl = this.form.get(field);
-    return !!ctrl && ctrl.invalid && (ctrl.dirty || ctrl.touched);
   }
 }

@@ -23,11 +23,15 @@ export interface MeassureScan {
 }
 
 export type CreateMeassureScanRequest = {
-  user_id:    string;
-  status_id:  number;
-  storage_bucket?: string;
-  storage_path: string;
-  scanned_at?: string;
+  user_id:          string;
+  status_id:        number;
+  storage_bucket?:  string;
+  storage_path:     string;
+  scanned_at?:      string;
+  ocr_raw_text?:    string | null;
+  ocr_confidence?:  number | null;
+  extracted_value?: number | null;
+  extracted_unit?:  string | null;
 };
 
 export type UpdateMeassureScanRequest = Partial<
