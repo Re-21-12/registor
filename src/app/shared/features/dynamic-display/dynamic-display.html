@@ -1,0 +1,68 @@
+<div class="display-container">
+  <!-- Toolbar -->
+  <ion-toolbar class="display-toolbar">
+    <ion-title size="small">{{ props.header }}</ion-title>
+
+    <ion-buttons slot="end">
+      @if (hasInsert) {
+        <ion-button fill="solid" color="primary" size="small" (click)="onInsert()">
+          <ion-icon slot="start" name="add-outline"></ion-icon>
+          Nuevo
+        </ion-button>
+      }
+      <ion-button fill="outline" color="medium" size="small" (click)="onExport()" [disabled]="props.data.length === 0">
+        <ion-icon slot="start" name="download-outline"></ion-icon>
+        CSV
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <!-- Toggle vista -->
+  <div class="segment-wrapper">
+    <ion-segment
+      [value]="viewMode()"
+      (ionChange)="onSegmentChange($event)"
+      mode="md"
+    >
+      <ion-segment-button value="table">
+        <ion-icon name="list-outline"></ion-icon>
+        <ion-label>Tabla</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="cards">
+        <ion-icon name="grid-outline"></ion-icon>
+        <ion-label>Tarjetas</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <!-- Contenido -->
+  <div class="display-content">
+    @if (viewMode() === 'table') {
+      <app-display-table
+        (delete)="onDelete($event)"
+        (view)="onView($event)"
+        (edit)="onEdit($event)"
+      />
+    } @else {
+      <app-display-cards
+        (delete)="onDelete($event)"
+        (view)="onView($event)"
+        (edit)="onEdit($event)"
+      />
+
+      <!-- Paginación para cards -->
+      <div class="cards-pagination">
+        <ion-button fill="clear" size="small" [disabled]="svc.currentPage() === 0" (click)="svc.prevPage()">
+          Anterior
+        </ion-button>
+        <span class="page-info">
+          {{ svc.currentPage() + 1 }} / {{ svc.totalPages() || 1 }}
+          &nbsp;·&nbsp; {{ svc.totalItems() }} registros
+        </span>
+        <ion-button fill="clear" size="small" [disabled]="svc.currentPage() >= svc.totalPages() - 1" (click)="svc.nextPage()">
+          Siguiente
+        </ion-button>
+      </div>
+    }
+  </div>
+</div>

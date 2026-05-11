@@ -1,0 +1,113 @@
+<div class="table-wrapper">
+  <div class="table-scroll">
+    <table class="display-table">
+      <thead>
+        <tr>
+          @for (col of columns; track col.field) {
+            <th>{{ col.header }}</th>
+          }
+          @if (actions.length > 0) {
+            <th class="actions-col">Acciones</th>
+          }
+        </tr>
+      </thead>
+
+      <tbody>
+        @if (loading) {
+          @for (row of skeletonRows; track $index) {
+            <tr>
+              @for (col of columns; track col.field) {
+                <td><ion-skeleton-text [animated]="true" class="skeleton-cell"></ion-skeleton-text></td>
+              }
+              @if (actions.length > 0) {
+                <td class="actions-cell">
+                  <ion-skeleton-text [animated]="true" class="skeleton-actions"></ion-skeleton-text>
+                </td>
+              }
+            </tr>
+          }
+        } @else if (pagedData.length === 0) {
+          <tr>
+            <td [attr.colspan]="columns.length + (actions.length > 0 ? 1 : 0)" class="empty-cell">
+              Sin registros para mostrar
+            </td>
+          </tr>
+        } @else {
+          @for (row of pagedData; track $index) {
+            <tr class="data-row">
+              @for (col of columns; track col.field) {
+                <td>
+                  @let cellValue = row[col.field];
+                  @if (shouldRenderAsBadge(cellValue)) {
+                    <ion-badge [color]="getBadgeColor(cellValue)">
+                      {{ getBadgeLabel(cellValue) }}
+                    </ion-badge>
+                  } @else {
+                    {{ formatCellValue(cellValue) }}
+                  }
+                </td>
+              }
+              @if (actions.length > 0) {
+                <td class="actions-cell">
+                  @if (hasAction('view')) {
+                    <ion-button fill="clear" size="small" color="medium" (click)="onView(row)" title="Ver detalle">
+                      <ion-icon slot="icon-only" name="eye-outline"></ion-icon>
+                    </ion-button>
+                  }
+                  @if (hasAction('update')) {
+                    <ion-button fill="clear" size="small" color="primary" (click)="onEdit(row)" title="Editar">
+                      <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+                    </ion-button>
+                  }
+                  @if (hasAction('delete')) {
+                    <ion-button fill="clear" size="small" color="danger" (click)="onDelete(row)" title="Eliminar">
+                      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                    </ion-button>
+                  }
+                </td>
+              }
+            </tr>
+          }
+        }
+      </tbody>
+
+      <tfoot>
+        <tr>
+          <td [attr.colspan]="columns.length + (actions.length > 0 ? 1 : 0)" class="footer-cell">
+            {{ svc.totalItems() }} registros en total
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <!-- Paginación -->
+  <div class="pagination-bar">
+    <div class="page-size-selector">
+      <ion-select
+        [value]="svc.pageSize()"
+        interface="popover"
+        aria-label="Filas por página"
+        (ionChange)="changePageSize($event)"
+      >
+        @for (opt of props.rowsPerPageOptions; track opt) {
+          <ion-select-option [value]="opt">{{ opt }} por página</ion-select-option>
+        }
+      </ion-select>
+    </div>
+
+    <div class="page-nav">
+      <ion-button fill="clear" size="small" [disabled]="svc.currentPage() === 0" (click)="svc.prevPage()">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+
+      <span class="page-info">
+        {{ svc.currentPage() + 1 }} / {{ svc.totalPages() || 1 }}
+      </span>
+
+      <ion-button fill="clear" size="small" [disabled]="svc.currentPage() >= svc.totalPages() - 1" (click)="svc.nextPage()">
+        <ion-icon slot="icon-only" name="chevron-forward-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-title>Confirmar eliminación</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="confirm-body">
+    <div class="icon-wrapper">
+      <ion-icon name="alert-circle-outline" color="danger" class="warning-icon"></ion-icon>
+    </div>
+
+    <ion-text color="dark">
+      <h3>¿Estás seguro de eliminar este registro?</h3>
+    </ion-text>
+
+    @if (label) {
+      <ion-text color="medium">
+        <p class="label-text">{{ label }}</p>
+      </ion-text>
+    }
+
+    <ion-text color="medium">
+      <p class="warning-text">Esta acción marcará el registro como eliminado y no podrá deshacerse.</p>
+    </ion-text>
+
+    <div class="action-buttons">
+      <ion-button fill="outline" color="medium" expand="block" (click)="cancel()">
+        Cancelar
+      </ion-button>
+      <ion-button color="danger" expand="block" (click)="confirm()">
+        <ion-icon slot="start" name="trash-outline"></ion-icon>
+        {{ confirmLabel }}
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

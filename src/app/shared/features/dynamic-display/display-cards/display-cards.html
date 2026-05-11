@@ -1,0 +1,86 @@
+@if (loading) {
+  <ion-grid>
+    <ion-row>
+      @for (item of skeletonCards; track $index) {
+        <ion-col size="12" sizeSm="6" sizeMd="4">
+          <ion-card class="skeleton-card">
+            <ion-card-header>
+              <ion-skeleton-text [animated]="true" style="height: 20px; width: 60%;"></ion-skeleton-text>
+              <ion-skeleton-text [animated]="true" style="height: 14px; width: 40%; margin-top: 4px;"></ion-skeleton-text>
+            </ion-card-header>
+            <ion-card-content>
+              @for (i of [1, 2, 3]; track i) {
+                <div class="skeleton-row">
+                  <ion-skeleton-text [animated]="true" style="height: 12px; width: 35%;"></ion-skeleton-text>
+                  <ion-skeleton-text [animated]="true" style="height: 12px; width: 50%;"></ion-skeleton-text>
+                </div>
+              }
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      }
+    </ion-row>
+  </ion-grid>
+
+} @else if (pagedData.length === 0) {
+  <div class="empty-state">
+    <p>Sin registros para mostrar</p>
+  </div>
+
+} @else {
+  <ion-grid>
+    <ion-row>
+      @for (row of pagedData; track $index) {
+        <ion-col size="12" sizeSm="6" sizeMd="4">
+          <ion-card class="data-card">
+            <ion-card-header>
+              <ion-card-title>{{ getCardTitle(row) }}</ion-card-title>
+              @if (getCardSubtitle(row)) {
+                <ion-card-subtitle>{{ getCardSubtitle(row) }}</ion-card-subtitle>
+              }
+            </ion-card-header>
+
+            <ion-card-content>
+              <div class="card-fields">
+                @for (col of getBodyColumns(row); track col.field) {
+                  <div class="card-field">
+                    <span class="field-label">{{ col.header }}</span>
+                    @let val = row[col.field];
+                    @if (shouldRenderAsBadge(val)) {
+                      <ion-badge [color]="getBadgeColor(val)">{{ getBadgeLabel(val) }}</ion-badge>
+                    } @else {
+                      <span class="field-value">{{ formatValue(val) }}</span>
+                    }
+                  </div>
+                }
+              </div>
+
+              @if (actions.length > 0) {
+                <div class="card-actions">
+                  @if (hasAction('view')) {
+                    <ion-button fill="outline" size="small" color="medium" (click)="onView(row)">
+                      <ion-icon slot="start" name="eye-outline"></ion-icon>
+                      Ver
+                    </ion-button>
+                  }
+                  @if (hasAction('update')) {
+                    <ion-button fill="outline" size="small" color="primary" (click)="onEdit(row)">
+                      <ion-icon slot="start" name="create-outline"></ion-icon>
+                      Editar
+                    </ion-button>
+                  }
+                  @if (hasAction('delete')) {
+                    <ion-button fill="outline" size="small" color="danger" (click)="onDelete(row)">
+                      <ion-icon slot="start" name="trash-outline"></ion-icon>
+                      Eliminar
+                    </ion-button>
+                  }
+                </div>
+              }
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      }
+    </ion-row>
+  </ion-grid>
+}
