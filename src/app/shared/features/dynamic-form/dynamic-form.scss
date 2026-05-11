@@ -1,0 +1,36 @@
+.dynamic-form {
+  display: block;
+  width: 100%;
+
+  ion-grid {
+    padding: 0;
+  }
+
+  ion-col {
+    padding-bottom: 4px;
+  }
+}
+
+.repeatable-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.repeatable-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 0 16px 8px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+
+  ion-button {
+    min-width: 120px;
+  }
+}

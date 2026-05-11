@@ -1,0 +1,346 @@
+<div class="field-wrapper">
+  @switch (fieldProps().type) {
+
+    <!-- TEXT -->
+    @case (TypeFields.TEXT) {
+      <ion-item>
+        @if (hasIcon()) {
+          <ion-icon [name]="fieldProps().icon" slot="start" aria-hidden="true"></ion-icon>
+        }
+        <ion-input
+          [label]="labelText()"
+          label-placement="floating"
+          type="text"
+          [formControl]="formControl()"
+          [placeholder]="fieldProps().placeholder || 'Ingresa texto'"
+          [maxlength]="getMaxLength() ?? undefined"
+          (keypress)="onKeypressLetras($event)"
+          (paste)="validarLetrasPaste($event)"
+        ></ion-input>
+      </ion-item>
+      <app-dynamic-hint
+        [hint]="fieldProps().hint || null"
+        [currentLength]="isTextualField() ? getCurrentLength() : null"
+        [maxLength]="isTextualField() ? getMaxLength() : null"
+        [field]="formControl()"
+      />
+      <app-dynamic-errors [field]="formControl()" />
+    }
+
+    <!-- EMAIL -->
+    @case (TypeFields.EMAIL) {
+      <ion-item>
+        @if (hasIcon()) {
+          <ion-icon [name]="fieldProps().icon" slot="start" aria-hidden="true"></ion-icon>
+        }
+        <ion-input
+          [label]="labelText()"
+          label-placement="floating"
+          type="email"
+          [formControl]="formControl()"
+          [placeholder]="fieldProps().placeholder || 'Ingresa tu email'"
+          [maxlength]="getMaxLength() ?? undefined"
+          (keypress)="onKeypressEmail($event)"
+          (paste)="validarEmailPaste($event)"
+        ></ion-input>
+      </ion-item>
+      <app-dynamic-hint
+        [hint]="fieldProps().hint || null"
+        [currentLength]="isTextualField() ? getCurrentLength() : null"
+        [maxLength]="isTextualField() ? getMaxLength() : null"
+        [field]="formControl()"
+      />
+      <app-dynamic-errors [field]="formControl()" />
+    }
+
+    <!-- NUMBER -->
+    @case (TypeFields.NUMBER) {
+      <ion-item>
+        @if (hasIcon()) {
+          <ion-icon [name]="fieldProps().icon" slot="start" aria-hidden="true"></ion-icon>
+        }
+        <ion-input
+          [label]="labelText()"
+          label-placement="floating"
+          type="number"
+          [formControl]="formControl()"
+          [placeholder]="fieldProps().placeholder || 'Ingresa un número'"
+        ></ion-input>
+      </ion-item>
+      <app-dynamic-hint [hint]="fieldProps().hint || null" [field]="formControl()" />
+      <app-dynamic-errors [field]="formControl()" />
+    }
+
+    <!-- INTEGER -->
+    @case (TypeFields.INTEGER) {
+      <ion-item>
+        @if (hasIcon()) {
+          <ion-icon [name]="fieldProps().icon" slot="start" aria-hidden="true"></ion-icon>
+        }
+        <ion-input
+          [label]="labelText()"
+          label-placement="floating"
+          type="text"
+          inputmode="numeric"
+          [formControl]="formControl()"
+          [placeholder]="fieldProps().placeholder || 'Ingresa un número entero'"
+          [maxlength]="getMaxLength() ?? undefined"
+          (keypress)="onKeypressEntero($event)"
+          (paste)="validarEnteroPaste($event)"
+        ></ion-input>
+      </ion-item>
+      <app-dynamic-hint
+        [hint]="fieldProps().hint || null"
+        [currentLength]="isTextualField() ? getCurrentLength() : null"
+        [maxLength]="isTextualField() ? getMaxLength() : null"
+        [field]="formControl()"
+      />
+      <app-dynamic-errors [field]="formControl()" />
+    }
+
+    <!-- DECIMAL -->
+    @case (TypeFields.DECIMAL) {
+      <ion-item>
+        @if (hasIcon()) {
+          <ion-icon [name]="fieldProps().icon" slot="start" aria-hidden="true"></ion-icon>
+        }
+        <ion-input
+          [label]="labelText()"
+          label-placement="floating"
+          type="text"
+          inputmode="decimal"
+          [formControl]="formControl()"
+          [placeholder]="fieldProps().placeholder || 'Ingresa un número decimal'"
+          [maxlength]="getMaxLength() ?? undefined"
+          (keypress)="onKeypressDecimal($event)"
+          (paste)="validarDecimalPaste($event)"
+        ></ion-input>
+      </ion-item>
+      <app-dynamic-hint
+        [hint]="fieldProps().hint || null"
+        [currentLength]="isTextualField() ? getCurrentLength() : null"
+        [maxLength]="isTextualField() ? getMaxLength() : null"
+        [field]="formControl()"
+      />
+      <app-dynamic-errors [field]="formControl()" />
+    }
+
+    <!-- CURRENCY -->
+    @case (TypeFields.CURRENCY) {
+      <ion-item>
+        @if (hasIcon()) {
+          <ion-icon [name]="fieldProps().icon" slot="start" aria-hidden="true"></ion-icon>
+        }
+        <ion-note slot="start" class="currency-symbol">$</ion-note>
+        <ion-input
+          [label]="labelText()"
+          label-placement="floating"
+          type="text"
+          inputmode="decimal"
+          [formControl]="formControl()"
+          [placeholder]="fieldProps().placeholder || '0.00'"
+          [maxlength]="getMaxLength() ?? undefined"
+          (keypress)="onKeypressMoneda($event)"
+          (paste)="validarMonedaPaste($event)"
+        ></ion-input>
+      </ion-item>
+      <app-dynamic-hint
+        [hint]="fieldProps().hint || null"
+        [currentLength]="isTextualField() ? getCurrentLength() : null"
+        [maxLength]="isTextualField() ? getMaxLength() : null"
+        [field]="formControl()"
+      />
+      <app-dynamic-errors [field]="formControl()" />
+    }
+
+    <!-- DATE -->
+    @case (TypeFields.DATE) {
+      <ion-item>
+        @if (hasIcon()) {
+          <ion-icon [name]="fieldProps().icon" slot="start" aria-hidden="true"></ion-icon>
+        }
+        <ion-input
+          [label]="labelText()"
+          label-placement="floating"
+          type="date"
+          [formControl]="formControl()"
+          [placeholder]="fieldProps().placeholder || 'Selecciona una fecha'"
+        ></ion-input>
+      </ion-item>
+      <app-dynamic-hint [hint]="fieldProps().hint || null" [field]="formControl()" />
+      <app-dynamic-errors [field]="formControl()" />
+    }
+
+    <!-- TEXTAREA -->
+    @case (TypeFields.TEXTAREA) {
+      <ion-item>
+        @if (hasIcon()) {
+          <ion-icon [name]="fieldProps().icon" slot="start" aria-hidden="true" class="textarea-icon"></ion-icon>
+        }
+        <ion-textarea
+          [label]="labelText()"
+          label-placement="floating"
+          [formControl]="formControl()"
+          [placeholder]="fieldProps().placeholder || 'Ingresa tu texto aquí...'"
+          [maxlength]="getMaxLength() ?? undefined"
+          [rows]="4"
+          auto-grow="false"
+        ></ion-textarea>
+      </ion-item>
+      <app-dynamic-hint
+        [hint]="fieldProps().hint || null"
+        [currentLength]="isTextualField() ? getCurrentLength() : null"
+        [maxLength]="isTextualField() ? getMaxLength() : null"
+        [field]="formControl()"
+      />
+      <app-dynamic-errors [field]="formControl()" />
+    }
+
+    <!-- PASSWORD -->
+    @case (TypeFields.PASSWORD) {
+      <ion-item>
+        @if (hasIcon()) {
+          <ion-icon [name]="fieldProps().icon" slot="start" aria-hidden="true"></ion-icon>
+        }
+        <ion-input
+          [label]="labelText()"
+          label-placement="floating"
+          [type]="showPassword() ? 'text' : 'password'"
+          [formControl]="formControl()"
+          [placeholder]="fieldProps().placeholder || 'Ingresa tu contraseña'"
+          [maxlength]="getMaxLength() ?? undefined"
+        >
+          <ion-button
+            slot="end"
+            fill="clear"
+            size="small"
+            (click)="togglePassword()"
+            aria-label="Mostrar/ocultar contraseña"
+          >
+            <ion-icon
+              slot="icon-only"
+              [name]="showPassword() ? 'eye-off-outline' : 'eye-outline'"
+            ></ion-icon>
+          </ion-button>
+        </ion-input>
+      </ion-item>
+      <app-dynamic-hint
+        [hint]="fieldProps().hint || null"
+        [currentLength]="isTextualField() ? getCurrentLength() : null"
+        [maxLength]="isTextualField() ? getMaxLength() : null"
+        [field]="formControl()"
+      />
+      <app-dynamic-errors [field]="formControl()" />
+    }
+
+    <!-- SELECT -->
+    @case (TypeFields.SELECT) {
+      <ion-item>
+        @if (hasIcon()) {
+          <ion-icon [name]="fieldProps().icon" slot="start" aria-hidden="true"></ion-icon>
+        }
+        <ion-select
+          [label]="labelText()"
+          label-placement="floating"
+          [formControl]="formControl()"
+          [placeholder]="fieldProps().placeholder || 'Selecciona una opción'"
+          interface="action-sheet"
+        >
+          @for (option of fieldProps().options; track option.key) {
+            <ion-select-option [value]="option.key">{{ option.value }}</ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+      <app-dynamic-hint [hint]="fieldProps().hint || null" [field]="formControl()" />
+      <app-dynamic-errors [field]="formControl()" />
+    }
+
+    <!-- MULTISELECT -->
+    @case (TypeFields.MULTISELECT) {
+      <ion-item>
+        @if (hasIcon()) {
+          <ion-icon [name]="fieldProps().icon" slot="start" aria-hidden="true"></ion-icon>
+        }
+        <ion-select
+          [label]="labelText()"
+          label-placement="floating"
+          [formControl]="formControl()"
+          [placeholder]="fieldProps().placeholder || 'Selecciona opciones'"
+          [multiple]="true"
+          interface="alert"
+        >
+          @for (option of fieldProps().options; track option.key) {
+            <ion-select-option [value]="option.key">{{ option.value }}</ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+      <app-dynamic-hint [hint]="fieldProps().hint || null" [field]="formControl()" />
+      <app-dynamic-errors [field]="formControl()" />
+    }
+
+    <!-- CHECKBOX -->
+    @case (TypeFields.CHECKBOX) {
+      <ion-item>
+        <ion-checkbox
+          [formControl]="formControl()"
+          labelPlacement="end"
+          justify="start"
+        >
+          {{ fieldProps().label || 'Aceptar' }}
+          @if (fieldProps().state.required) {
+            <span class="required-mark"> *</span>
+          }
+        </ion-checkbox>
+      </ion-item>
+      <app-dynamic-hint [hint]="fieldProps().hint || null" [field]="formControl()" />
+      <app-dynamic-errors [field]="formControl()" />
+    }
+
+    <!-- RADIO -->
+    @case (TypeFields.RADIO) {
+      <div class="radio-group-wrapper">
+        <ion-label class="radio-group-label">
+          {{ fieldProps().label || 'Opciones' }}
+          @if (fieldProps().state.required) {
+            <span class="required-mark"> *</span>
+          }
+        </ion-label>
+        <ion-radio-group [formControl]="formControl()">
+          @for (option of fieldProps().options; track option.key) {
+            <ion-item>
+              <ion-radio [value]="option.key" labelPlacement="end">
+                {{ option.value }}
+              </ion-radio>
+            </ion-item>
+          }
+        </ion-radio-group>
+        <app-dynamic-hint [hint]="fieldProps().hint || null" [field]="formControl()" />
+        <app-dynamic-errors [field]="formControl()" />
+      </div>
+    }
+
+    <!-- TOGGLE -->
+    @case (TypeFields.TOGGLE) {
+      <ion-item>
+        <ion-toggle
+          [formControl]="formControl()"
+          labelPlacement="start"
+          justify="space-between"
+        >
+          {{ fieldProps().label || 'Activar' }}
+          @if (fieldProps().state.required) {
+            <span class="required-mark"> *</span>
+          }
+        </ion-toggle>
+      </ion-item>
+      <app-dynamic-hint [hint]="fieldProps().hint || null" [field]="formControl()" />
+      <app-dynamic-errors [field]="formControl()" />
+    }
+
+    @default {
+      <ion-item>
+        <ion-note color="medium">Campo no configurado: {{ fieldProps().type }}</ion-note>
+      </ion-item>
+    }
+  }
+</div>

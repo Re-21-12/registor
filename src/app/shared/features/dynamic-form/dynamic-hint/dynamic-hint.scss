@@ -1,0 +1,11 @@
+.hint-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 16px 0;
+}
+
+.hint-text,
+.char-count {
+  font-size: 12px;
+}

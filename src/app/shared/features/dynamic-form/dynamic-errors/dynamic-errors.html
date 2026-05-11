@@ -1,0 +1,9 @@
+@if (field() && shouldShow() && getErrors().length) {
+  <div class="error-container">
+    @for (error of getErrors(); track error.key) {
+      <ion-text color="danger">
+        <p class="error-message">{{ error.message }}</p>
+      </ion-text>
+    }
+  </div>
+}
