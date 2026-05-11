@@ -2,12 +2,10 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   IonHeader, IonToolbar, IonTitle, IonContent,
-  IonButtons, IonBackButton, IonSpinner, IonText,
+  IonButtons, IonBackButton, IonText,
 } from '@ionic/angular/standalone';
 import { PatientProfileService } from '../../shared/features/health/services/patient-profile.service';
-import { CatalogService } from '../../shared/features/acl/services/catalog.service';
 import { PatientProfileForm } from '../../shared/features/health/components/patient-profile-form/patient-profile-form';
-import { Catalog } from '../../shared/features/acl/types';
 import { CreatePatientProfileRequest } from '../../shared/features/health/types';
 
 @Component({
@@ -16,33 +14,18 @@ import { CreatePatientProfileRequest } from '../../shared/features/health/types'
   styleUrls: ['./profile-setup.page.scss'],
   imports: [
     IonHeader, IonToolbar, IonTitle, IonContent,
-    IonButtons, IonBackButton, IonSpinner, IonText,
+    IonButtons, IonBackButton, IonText,
     PatientProfileForm,
   ],
 })
 export class ProfileSetupPage implements OnInit {
   private profileService = inject(PatientProfileService);
-  private catalogService = inject(CatalogService);
   private router         = inject(Router);
 
-  diabetesTypeOptions = signal<Catalog[]>([]);
-  genderOptions       = signal<Catalog[]>([]);
-  loading             = signal(true);
-  error               = signal<string | null>(null);
+  error = signal<string | null>(null);
 
   async ngOnInit(): Promise<void> {
-    try {
-      const [diabetesTypes, genders] = await Promise.all([
-        this.catalogService.getByTable('patient_profile'),
-        this.catalogService.getByTable('gender'),
-      ]);
-      this.diabetesTypeOptions.set(diabetesTypes);
-      this.genderOptions.set(genders);
-    } catch (e: any) {
-      this.error.set(e.message);
-    } finally {
-      this.loading.set(false);
-    }
+    // initial data pre-load if needed — handled by PatientProfileForm internally
   }
 
   async onSave(request: CreatePatientProfileRequest): Promise<void> {

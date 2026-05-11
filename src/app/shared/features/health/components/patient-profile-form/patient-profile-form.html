@@ -1,75 +1,18 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<app-dynamic-form
+  [fields]="fields"
+  [initialData]="formInitialData"
+  [hideActions]="true"
+  (data)="onData($event)"
+  #dynForm
+/>
 
-  <ion-select
-    fill="outline"
-    label="Tipo de diabetes *"
-    labelPlacement="floating"
-    formControlName="diabetes_type_id"
-    placeholder="Selecciona tipo"
-    errorText="Selecciona el tipo de diabetes"
-    [class.ion-invalid]="isInvalid('diabetes_type_id')"
-    [class.ion-touched]="isInvalid('diabetes_type_id')">
-    @for (opt of diabetesTypeOptions(); track opt.option_id) {
-      <ion-select-option [value]="opt.option_id">{{ opt.description }}</ion-select-option>
-    }
-  </ion-select>
-
-  <ion-input
-    fill="outline"
-    label="Mínimo objetivo (mg/dL) *"
-    labelPlacement="floating"
-    type="number"
-    formControlName="target_min_mgdl"
-    [min]="40" [max]="150"
-    errorText="Valor entre 40 y 150"
-    [class.ion-invalid]="isInvalid('target_min_mgdl')"
-    [class.ion-touched]="isInvalid('target_min_mgdl')" />
-
-  <ion-input
-    fill="outline"
-    label="Máximo objetivo (mg/dL) *"
-    labelPlacement="floating"
-    type="number"
-    formControlName="target_max_mgdl"
-    [min]="100" [max]="400"
-    errorText="Valor entre 100 y 400"
-    [class.ion-invalid]="isInvalid('target_max_mgdl')"
-    [class.ion-touched]="isInvalid('target_max_mgdl')" />
-
-  <ion-input
-    fill="outline"
-    label="Fecha de nacimiento"
-    labelPlacement="floating"
-    type="date"
-    formControlName="date_of_birth" />
-
-  <ion-select
-    fill="outline"
-    label="Género"
-    labelPlacement="floating"
-    formControlName="gender_id"
-    placeholder="Selecciona género (opcional)">
-    @for (opt of genderOptions(); track opt.option_id) {
-      <ion-select-option [value]="opt.option_id">{{ opt.description }}</ion-select-option>
-    }
-  </ion-select>
-
-  <ion-input
-    fill="outline"
-    label="Fecha de diagnóstico"
-    labelPlacement="floating"
-    type="date"
-    formControlName="diagnosis_date" />
-
-  <div class="form-actions">
-    <ion-button fill="outline" color="medium" (click)="onCancel()">
-      <ion-icon slot="start" name="close-outline" />
-      Cancelar
-    </ion-button>
-    <ion-button type="submit" color="primary">
-      <ion-icon slot="start" name="save-outline" />
-      Guardar
-    </ion-button>
-  </div>
-
-</form>
+<div class="form-actions">
+  <ion-button fill="outline" color="medium" (click)="onCancel()">
+    <ion-icon slot="start" name="close-outline" />
+    Cancelar
+  </ion-button>
+  <ion-button color="primary" (click)="dynForm.onSubmit()">
+    <ion-icon slot="start" name="save-outline" />
+    Guardar
+  </ion-button>
+</div>

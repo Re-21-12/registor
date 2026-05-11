@@ -1,83 +1,18 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<app-dynamic-form
+  [fields]="fields"
+  [initialData]="formInitialData"
+  [hideActions]="true"
+  (data)="onData($event)"
+  #dynForm
+/>
 
-  <ion-item [class.ion-invalid]="isInvalid('measured_at')">
-    <ion-label position="stacked">Fecha y hora *</ion-label>
-    <ion-input type="datetime-local" formControlName="measured_at" />
-    @if (isInvalid('measured_at')) {
-      <ion-note slot="error">La fecha es obligatoria</ion-note>
-    }
-  </ion-item>
-
-  <ion-item [class.ion-invalid]="isInvalid('value_mgdl')">
-    <ion-label position="stacked">Valor (mg/dL) *</ion-label>
-    <ion-input
-      type="number"
-      inputmode="decimal"
-      placeholder="Ej: 120"
-      formControlName="value_mgdl"
-      min="20"
-      max="600" />
-    @if (isInvalid('value_mgdl')) {
-      <ion-note slot="error">Ingresa un valor entre 20 y 600</ion-note>
-    }
-  </ion-item>
-
-  <ion-item [class.ion-invalid]="isInvalid('unit_id')">
-    <ion-label position="stacked">Unidad *</ion-label>
-    <ion-select formControlName="unit_id" placeholder="Selecciona unidad">
-      @for (opt of unitOptions(); track opt.option_id) {
-        <ion-select-option [value]="opt.option_id">{{ opt.description }}</ion-select-option>
-      }
-    </ion-select>
-    @if (isInvalid('unit_id')) {
-      <ion-note slot="error">Selecciona una unidad</ion-note>
-    }
-  </ion-item>
-
-  <ion-item [class.ion-invalid]="isInvalid('meassure_type_id')">
-    <ion-label position="stacked">Tipo de medición *</ion-label>
-    <ion-select formControlName="meassure_type_id" placeholder="Selecciona tipo">
-      @for (opt of typeOptions(); track opt.option_id) {
-        <ion-select-option [value]="opt.option_id">{{ opt.description }}</ion-select-option>
-      }
-    </ion-select>
-    @if (isInvalid('meassure_type_id')) {
-      <ion-note slot="error">Selecciona un tipo</ion-note>
-    }
-  </ion-item>
-
-  <ion-item>
-    <ion-label position="stacked">Contexto</ion-label>
-    <ion-select formControlName="context_id" placeholder="Selecciona contexto (opcional)">
-      @for (opt of contextOptions(); track opt.option_id) {
-        <ion-select-option [value]="opt.option_id">{{ opt.description }}</ion-select-option>
-      }
-    </ion-select>
-  </ion-item>
-
-  <ion-item>
-    <ion-label position="stacked">Última comida</ion-label>
-    <ion-input type="datetime-local" formControlName="last_eat_at" />
-  </ion-item>
-
-  <ion-item>
-    <ion-label position="stacked">Notas</ion-label>
-    <ion-textarea
-      formControlName="notes"
-      placeholder="Observaciones opcionales"
-      [autoGrow]="true"
-      maxlength="300" />
-  </ion-item>
-
-  <div class="form-actions">
-    <ion-button fill="outline" color="medium" (click)="onCancel()">
-      <ion-icon slot="start" name="close-outline" />
-      Cancelar
-    </ion-button>
-    <ion-button type="submit" color="success">
-      <ion-icon slot="start" name="save-outline" />
-      Guardar
-    </ion-button>
-  </div>
-
-</form>
+<div class="form-actions">
+  <ion-button fill="outline" color="medium" (click)="onCancel()">
+    <ion-icon slot="start" name="close-outline" />
+    Cancelar
+  </ion-button>
+  <ion-button color="success" (click)="dynForm.onSubmit()">
+    <ion-icon slot="start" name="save-outline" />
+    Guardar
+  </ion-button>
+</div>
