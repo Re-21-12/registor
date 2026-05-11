@@ -345,6 +345,24 @@
       <app-dynamic-errors [field]="formControl()" />
     }
 
+    <!-- DATETIME -->
+    @case (TypeFields.DATETIME) {
+      <ion-item>
+        @if (hasIcon()) {
+          <ion-icon [name]="fieldProps().icon" slot="start" aria-hidden="true"></ion-icon>
+        }
+        <ion-input
+          [label]="labelText()"
+          label-placement="floating"
+          type="datetime-local"
+          [formControl]="formControl()"
+          [placeholder]="fieldProps().placeholder || ''"
+        ></ion-input>
+      </ion-item>
+      <app-dynamic-hint [hint]="fieldProps().hint || null" [field]="formControl()" />
+      <app-dynamic-errors [field]="formControl()" />
+    }
+
     @default {
       <ion-item>
         <ion-note color="medium">Campo no configurado: {{ fieldProps().type }}</ion-note>
